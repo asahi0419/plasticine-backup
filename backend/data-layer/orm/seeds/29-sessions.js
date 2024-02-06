@@ -1,0 +1,90 @@
+export default {
+  name: 'Session',
+  plural: 'Sessions',
+  alias: 'session',
+  type: 'core',
+  template: 'base',
+  access_script: 'p.currentUser.canAtLeastRead()',
+  order: '-100',
+  __lock: ['delete'],
+  fields: [
+    {
+      name: 'Logout at',
+      alias: 'logout_at',
+      type: 'datetime',
+      __lock: ['delete'],
+    },
+    {
+      name: 'Last activity at',
+      alias: 'last_activity_at',
+      type: 'datetime',
+      __lock: ['delete'],
+    },
+    {
+      name: 'IP address',
+      alias: 'ip_address',
+      type: 'string',
+      required_when_script: 'true',
+      __lock: ['delete'],
+    },
+    {
+      name: 'Details',
+      alias: 'details',
+      type: 'string',
+      options: { length: 10000 },
+      required_when_script: 'true',
+      __lock: ['delete'],
+    },
+    {
+      name: 'Reason to close',
+      alias: 'reason_to_close',
+      type: 'array_string',
+      options: {
+        values: {
+          manual: 'Manual',
+          auto: 'Autologout',
+          stolen: 'Stolen',
+        },
+      },
+      required_when_script: "!!p.record.getValue('logout_at')",
+      __lock: ['delete'],
+    },
+  ],
+  views: [
+    {
+      name: 'Default',
+      alias: 'default',
+      type: 'grid',
+      condition_script: 'p.currentUser.isAdmin()',
+      layout: 'Default',
+      filter: 'Default',
+      __lock: ['delete'],
+    },
+  ],
+  layouts: [
+    {
+      name: 'Default',
+      type: 'grid',
+      options: {
+        columns: ['id', 'created_by', 'created_at', 'logout_at', 'updated_at', 'updated_by'],
+        columns_options: {},
+        sort_order: [
+          { field: 'id', type: 'descending' },
+          { field: 'created_by', type: 'none' },
+          { field: 'created_at', type: 'none' },
+          { field: 'logout_at', type: 'none' },
+          { field: 'updated_at', type: 'none' },
+          { field: 'updated_by', type: 'none' },
+        ],
+        wrap_text: true,
+        no_wrap_text_limit: 50,
+      },
+      __lock: ['delete'],
+    },
+  ],
+  permissions: [
+    { type: 'model', action: 'create', script: 'p.currentUser.canAtLeastRead()', __lock: ['delete'] },
+    { type: 'model', action: 'update', script: 'p.currentUser.canAtLeastRead()', __lock: ['delete'] },
+    { type: 'model', action: 'delete', script: 'p.currentUser.canAtLeastRead()', __lock: ['delete'] },
+  ],
+};

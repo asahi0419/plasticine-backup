@@ -1,0 +1,19 @@
+/* data-visual field */
+
+.ui.form .field.data-visual .content {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 100%;
+  margin: 0;
+  vertical-align: top;
+}
+
+.ui.form .field.data-visual .content.inline {
+  width: calc(100% - 130px);
+  min-width: calc(100% - 130px);
+}
+
+.ui.form .field.data-visual .ui.vertical.segment {
+  border-bottom: none !important;
+}

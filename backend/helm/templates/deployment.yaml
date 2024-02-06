@@ -1,0 +1,105 @@
+{{- if eq .Values.services.backend.env "dev" }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.Name }}
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      service: {{ .Values.Name }}
+  template:
+    metadata:
+      annotations:
+        timestamp: {{ now | quote }}
+        rollme: {{ randAlphaNum 5 | quote }}
+      labels:
+        service: {{ .Values.Name }}
+    spec:
+      terminationGracePeriodSeconds: 15
+      volumes:
+      - name: business
+        hostPath:
+          path: /src/plasticine/{{ .Values.Name }}/business
+          type: Directory
+      - name: data-layer
+        hostPath:
+          path: /src/plasticine/{{ .Values.Name }}/data-layer
+          type: Directory
+      - name: microservices
+        hostPath:
+          path: /src/plasticine/{{ .Values.Name }}/microservices
+          type: Directory
+      - name: presentation
+        hostPath:
+          path: /src/plasticine/{{ .Values.Name }}/presentation
+          type: Directory
+      - name: scripts
+        hostPath:
+          path: /src/plasticine/{{ .Values.Name }}/scripts
+          type: Directory
+      containers:
+        - name: {{ .Values.Name }}
+          image: plasticine/{{ .Values.Name }}:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: {{ .Values.Name }}
+              containerPort: {{ .Values.ServiceInternalPort }}
+          volumeMounts:
+          - name: business
+            mountPath: /src/plasticine/{{ .Values.Name }}/business
+          - name: data-layer
+            mountPath: /src/plasticine/{{ .Values.Name }}/data-layer
+          - name: microservices
+            mountPath: /src/plasticine/{{ .Values.Name }}/microservices
+          - name: presentation
+            mountPath: /src/plasticine/{{ .Values.Name }}/presentation
+          - name: scripts
+            mountPath: /src/plasticine/{{ .Values.Name }}/scripts
+          envFrom:
+          - secretRef:
+             name: secret-{{ .Values.Name }}
+          command: [ "yarn", "run", "server:start" ]
+
+{{- end }}
+
+{{- if eq .Values.services.backend.env "prod" }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.Name }}
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      service: {{ .Values.Name }}
+  template:
+    metadata:
+      annotations:
+        timestamp: {{ now | quote }}
+        rollme: {{ randAlphaNum 5 | quote }}
+      labels:
+        service: {{ .Values.Name }}
+    spec:
+      terminationGracePeriodSeconds: 15
+      containers:
+        - name: {{ .Values.Name }}
+          image: plasticine/{{ .Values.Name }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: {{ .Values.Name }}
+              containerPort: {{ .Values.ServiceInternalPort }}
+          envFrom:
+          - secretRef:
+             name: secret-{{ .Values.Name }}
+          command: [ "yarn", "run", "server:start:production" ]
+
+{{- end }}

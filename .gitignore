@@ -1,0 +1,66 @@
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+scan
+dist
+.vscode
+.storage
+.dumps
+build/frontend/sources
+build/backend/sources
+docker-compose.yml
+.idea/*
+
+mc_proxy
+mobile_proxy
+node_modules
+
+.data
+.env
+.db
+cli
+*.py
+
+!backend/docker-compose.yml
+!frontend/docker-compose.yml
+
+projects/*
+!projects/default
+!projects/default-minikube
+!projects/default-minikube.prod
+
+services/*
+!services/bg-mails-processor
+!services/bg-mails-retriever
+!services/bg-mails-sender
+!services/bg-tasks
+!services/topology
+!services/minio
+!services/mysql
+!services/nginx
+!services/postgres
+!services/redis-core
+!services/redis-custom
+!services/*/docker-compose.yml

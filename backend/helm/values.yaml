@@ -1,0 +1,4 @@
+Name: backend
+IngressHost: localhost
+ServiceInternalPort: 8080
+ServiceExternalPort: 8080

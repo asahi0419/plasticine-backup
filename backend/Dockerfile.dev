@@ -1,0 +1,62 @@
+# ================================================================
+# Base
+# ----------------------------------------------------------------
+
+FROM node:18.12.1-alpine3.16
+ENV NODE_ENV=development
+
+# ================================================================
+# Install DevOps tools
+# ----------------------------------------------------------------
+
+RUN apk add --update-cache --repository http://nl.alpinelinux.org/alpine/edge/testing && \
+    apk update --no-cache && \
+    apk upgrade --no-cache && \
+    apk add --no-cache jq bash curl busybox-extras openssh-client mtr tcpdump openssl && \
+    chmod u+s /bin/busybox
+
+# ================================================================
+# Plugin ODBC dependency
+# ----------------------------------------------------------------
+
+ENV ODBCINI=/src/plasticine/backend/extensions/plugins/list/plugin_odbc/configs/odbc.ini
+
+# ================================================================
+# Puppeteer dependency
+# ----------------------------------------------------------------
+
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+RUN apk add --no-cache chromium chromium-swiftshader nss freetype harfbuzz ca-certificates ttf-freefont
+RUN wget https://github.com/todylu/monaco.ttf/raw/master/monaco.ttf && \
+    mkdir -p /usr/share/fonts/monaco && \
+    mv monaco.ttf /usr/share/fonts/monaco && \
+    fc-cache -f
+
+# ================================================================
+# pdf2pic dependency
+# ----------------------------------------------------------------
+
+RUN apk add --no-cache ghostscript graphicsmagick
+
+# ================================================================
+# Build
+# ----------------------------------------------------------------
+
+WORKDIR /src/plasticine/backend
+COPY . .
+RUN yarn install && yarn run extensions:install
+RUN chown -R node:node /src/plasticine/backend
+
+# TODO: resolve ansi-regex vulnerability issue in a clever way
+# https://redmine.nasctech.com/issues/76270
+
+RUN rm -rf /usr/local/lib/node_modules
+
+# ================================================================
+# Finalize
+# ----------------------------------------------------------------
+
+# USER node
+EXPOSE 8080
+CMD [ "yarn", "run", "server:start" ]

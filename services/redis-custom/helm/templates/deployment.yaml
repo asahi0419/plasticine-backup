@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.Name }}
+      def: core
+      location: internal
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.Name }}
+        def: core
+        location: internal
+    spec:
+      containers:
+      - name: {{ .Values.Name }}
+        image: bitnami/redis:6.2.6
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        ports:
+        - containerPort: {{ .Values.ServiceInternalPort }}
+          name: {{ .Values.Name }}

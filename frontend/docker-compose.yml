@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  frontend: &frontend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: plasticine/frontend
+    container_name: frontend
+    environment:
+      SERVICE_BACKEND_HOST: ${SERVICE_BACKEND_HOST}
+      SERVICE_BACKEND_PORT: ${SERVICE_BACKEND_PORT}
+
+  frontend-dev:
+    <<: *frontend
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    image: plasticine/frontend:dev
+    container_name: frontend-dev
+    command: yarn run watch
+    volumes:
+      - ./:/src/plasticine/frontend
+      - ../.git:/src/plasticine/frontend/.git # important for extracting info about build
+      - node_modules:/src/plasticine/frontend/node_modules
+
+volumes:
+  node_modules:
+    name: plasticine-frontend-nm
+
+networks:
+  default:
+    name: plasticine

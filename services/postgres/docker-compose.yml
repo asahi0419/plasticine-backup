@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3-alpine
+    container_name: postgres
+    volumes:
+      - ./var/lib/postgresql/15/data/:/var/lib/postgresql/data/
+    ports:
+      - '${SERVICE_PORT}:5432'
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+
+networks:
+  default:
+    name: plasticine

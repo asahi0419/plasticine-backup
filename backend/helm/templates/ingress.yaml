@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.Name }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.org/server-snippets: "gzip on;"
+    nginx.ingress.kubernetes.io/max-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/configuration-snippet: >
+      more_clear_headers strict-transport-security; 
+      more_clear_headers x-content-type-options; 
+      more_set_headers "X-XSS-Protection: 1; mode=block";  
+      more_set_headers "Content-Security-Policy: default-src 'self' 'unsafe-eval' 'unsafe-inline' data: blob: https:;base-uri 'self'; form-action 'self' https:; upgrade-insecure-requests;";
+spec:
+  rules:
+  - host: {{ .Values.IngressHost }}
+    http:
+      paths:
+      - path: /ws
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.Name }}
+            port:
+              name: {{ .Values.Name }}
+      - path: /api/v1
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.Name }}
+            port:
+              name: {{ .Values.Name }}

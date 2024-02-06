@@ -1,0 +1,397 @@
+*::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: darkgrey !important;
+  border-radius: 0 !important;
+}
+
+.ui.form .inline.field,
+.ui.form .inline.fields .field {
+  display: flex;
+  align-items: start;
+}
+
+.ui.form .inline.field:not(.wide) .ui.input,
+.ui.form .inline.fields .field:not(.wide) .ui.input,
+.ui.form .inline.field > .selection.dropdown,
+.ui.form .inline.fields .field > .selection.dropdown,
+.ui.form .inline.field > textarea,
+.ui.form .inline.fields .field > textarea {
+  width: 100%;
+  min-width: calc(100% - 130px);
+  min-height: 32px;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.ui.form .field {
+  margin: 0 0 10px;
+}
+
+.ui.form .field .ui.colorpicker,
+.ui.form .field .ui.checkbox {
+  height: 57px;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.ui.form .field:last-child .ui.colorpicker,
+.ui.form .field:last-child .ui.checkbox {
+  margin-bottom: 0;
+}
+
+.ui.form .field > label {
+  width: auto;
+  max-width: auto;
+  margin-bottom: .28rem !important;
+  font-size: 1em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.ui.form .field .icon.asterisk,
+.ui.form .tabs .icon.asterisk {
+  width: 8px;
+  height: 8px;
+  font-size: 8px;
+  color: #db2828;
+}
+
+.ui.form .field .icon.asterisk::before,
+.ui.form .tabs .icon.asterisk::before {
+  position: relative;
+  top: -2px;
+}
+
+.ui.form .inline.field > label {
+  width: 115px;
+  min-width: 115px;
+  max-width: 115px;
+  margin-top: 5px !important;
+  margin-bottom: 0 !important;
+  font-size: 1em;
+  font-weight: 500;
+  text-align: right;
+}
+
+.ui.form .field .ui.colorpicker label,
+.ui.form .field .ui.checkbox label {
+  padding: 0;
+  font-size: 1em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ui.form .field .ui.checkbox label {
+  height: 100%;
+}
+
+.ui.form .required.field > label:after,
+.ui.form .required.fields.grouped > label:after,
+.ui.form .required.fields:not(.grouped) > .field > label:after {
+  display: none;
+}
+
+.ui.form .inline.field .ui.colorpicker,
+.ui.form .inline.field .ui.checkbox {
+  display: flex;
+  height: auto;
+  min-height: 32px;
+  align-items: center;
+}
+
+.ui.form .inline.field .ui.colorpicker label,
+.ui.form .inline.field .ui.checkbox label {
+  width: 115px;
+  min-width: 115px;
+  margin-top: 8px;
+  text-align: right;
+  align-self: baseline;
+  text-overflow: initial;
+  overflow: initial;
+  white-space: initial;
+}
+
+.ui.form .field .ui.colorpicker .box:before,
+.ui.form .field .ui.colorpicker label:before,
+.ui.form .field .ui.colorpicker .box:after,
+.ui.form .field .ui.colorpicker label:after,
+.ui.form .field .ui.checkbox .box:before,
+.ui.form .field .ui.checkbox label:before,
+.ui.form .field .ui.checkbox .box:after,
+.ui.form .field .ui.checkbox label:after {
+  top: 30px;
+}
+
+.ui.form .inline.field .ui.colorpicker .box:before,
+.ui.form .inline.field .ui.colorpicker label:before,
+.ui.form .inline.field .ui.colorpicker .box:after,
+.ui.form .inline.field .ui.colorpicker label:after,
+.ui.form .inline.field .ui.checkbox .box:before,
+.ui.form .inline.field .ui.checkbox label:before,
+.ui.form .inline.field .ui.checkbox .box:after,
+.ui.form .inline.field .ui.checkbox label:after {
+  top: 1px;
+  left: initial;
+  right: -32px;
+}
+
+.ui.form .field .ui.colorpicker .trigger {
+  margin-top: 13px;
+}
+
+.ui.form .inline.field .ui.colorpicker .trigger {
+  margin-top: 6px;
+  margin-left: 15px;
+}
+
+.ui[class*="left action"].input > .button:first-child,
+.ui[class*="left action"].input > .buttons:first-child > .button,
+.ui[class*="left action"].input > .dropdown:first-child {
+  height: 32px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.ui[class*="left action"].input > .button:first-child > .dropdown.icon {
+  margin: 0 0 0 0.5em;
+}
+
+.ui[class*="left action"].input > input {
+  max-width: 175px;
+}
+
+.ui.segment {
+  box-shadow: none !important;
+}
+
+.ui.button:not(.dropdown) {
+  padding: 9px;
+  min-width: 22px !important;
+}
+
+.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
+  margin: 0 6px 0 0;
+}
+.ui.button:not(.icon) > .icon:not(.button):not(.dropdown):last-child {
+  margin: 0;
+}
+
+.ui.button.red {
+  min-width: auto !important;
+}
+
+.ui.table thead th {
+  padding: 6px 9px;
+}
+
+.ui.sortable.table thead th.sorted:after {
+  display: none;
+}
+
+.ui.input input,
+.ui.form textarea {
+  padding: 6px 9px 7px !important;
+}
+
+.ui.simple.dropdown .menu {
+  transition: none;
+}
+
+.ui.selection.dropdown,
+.ui.search.selection.dropdown > input.search {
+   min-height: 32px;
+}
+
+.ui.selection.dropdown {
+  width: 300px;
+}
+
+.ui.form .ui.selection.dropdown {
+  width: 100%;
+  min-width: auto;
+}
+
+.ui.selection.dropdown .text {
+  display: list-item;
+  width: calc(100% - 15px);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ui.form .inline.field > .selection.dropdown .text,
+.ui.form .inline.fields .field > .selection.dropdown .text {
+  display: block;
+  width: auto;
+}
+
+.ui.dropdown .menu {
+  z-index: 999;
+}
+
+.ui.multiple.dropdown > .label ~ .text {
+  display: none !important;
+}
+
+.ui.selection.dropdown,
+.ui.search.selection.dropdown,
+.ui.search.selection.dropdown > input.search {
+   padding: 8px 9px;
+ }
+
+.ui.selection.dropdown.multiple {
+  padding: 1px 25px 1px 3px;
+  vertical-align: middle;
+}
+
+.ui.selection.dropdown .menu > .item {
+  min-height: 32px;
+  padding: 8px 9px !important;
+}
+
+.ui.selection.dropdown .icon.dropdown {
+  padding: 8px 9px 8px;
+}
+
+.ui.form .field label {
+  pointer-events: auto;
+}
+
+.ui.form .field .ui.checkbox label {
+  pointer-events: initial;
+}
+
+.ui.form .field .ui.checkbox input.hidden + label {
+  user-select: auto;
+}
+
+.ui.form .field:disabled,
+.ui.form .field.disabled,
+.ui.form .field.disabled label {
+  opacity: 1;
+}
+
+.ui.form .field.disabled label:before,
+.ui.form .field.disabled label:after {
+  opacity: 0.5;
+}
+
+.form-modal {
+  position: relative;
+}
+
+.form-modal .ui.disabled.input,
+.form-modal .ui.input:not(.disabled) input[disabled],
+.form-modal .ui.disabled.dropdown,
+.form-modal .ui.dropdown .menu > .disabled.item,
+.form-modal .ui.form .disabled.field,
+.form-modal .ui.form .disabled.fields .field,
+.form-modal .ui.form .field :disabled,
+.form-modal .ui.form .field.disabled label:before,
+.form-modal .ui.form .field.disabled label:after {
+  opacity: 1;
+}
+
+.ui.dimmer,
+.ui.modal {
+  will-change: auto; /* quick hack for unexpected browser behavior: https://github.com/bvaughn/react-virtualized/issues/453 */
+}
+
+.table-container .ui.dimmer, .ui.form ~ .ui.dimmer,
+.form .ui.dimmer, .ui.form ~ .ui.dimmer {
+  z-index: 900;
+}
+
+.ui.form .disabled.field,
+.ui.form .disabled.fields .field,
+.ui.form .field :disabled {
+  pointer-events: all;
+}
+
+textarea[disabled],
+.ui.disabled.input,
+.ui.input:not(.disabled) input[disabled],
+.ui.disabled.dropdown,
+.ui.dropdown .menu > .disabled.item {
+  opacity: 0.65 !important;
+}
+
+.ui.button.middle-header-more-actions-trigger {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  min-width: 24px !important;
+  margin: -1px 0 0 4px;
+  padding: 0 !important;
+}
+
+.ui.multiple.dropdown {
+  padding: 1px 30px 1px 3px !important;
+}
+
+.ui.multiple.dropdown.search {
+  padding: .22em 3.7em 0 .35em !important;
+}
+
+.ui.multiple.dropdown > .text {
+  margin: 5px 0 0 6px;
+}
+
+.ui.multiple.dropdown > .label {
+  position: relative;
+  max-width: 100%;
+  padding: .35em 1.85em .35em .78em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 24px;
+}
+
+.ui.multiple.dropdown.search > .label:last-of-type {
+  max-width: 93%;
+}
+
+.ui.multiple.dropdown > .label > .delete.icon {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+}
+
+.ui.menu.tabular .react-contextmenu-wrapper {
+  margin-bottom: -1px;
+}
+.ui.menu.tabular .react-contextmenu-wrapper a {
+  height: 100%;
+}
+.ui.menu.secondary.pointing .item {
+  padding: .965em 1.378em;
+}
+
+.ui.divider.horizontal {
+  display: inline-flex;
+  width: 100%;
+}
+.ui.divider.horizontal:after, .ui.divider.horizontal:before {
+  height: 1px;
+  margin-top: 0.5em;
+}
+.ui.divider.horizontal:after {
+  margin-left: 0.5em;
+}
+.ui.divider.horizontal:before {
+  margin-right: 0.5em;
+}
+
+.ui[class*="right floated"].button,
+.ui[class*="right floated"].buttons {
+  margin-left: 3px;
+}

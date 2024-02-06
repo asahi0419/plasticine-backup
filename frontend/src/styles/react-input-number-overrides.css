@@ -1,0 +1,8 @@
+.ui.form .inline.field .rc-input-number {
+  width: calc(100% - 130px) !important;
+  min-width: calc(100% - 130px) !important;
+}
+
+.ui.form .field .rc-input-number-input {
+  padding: 6px 9px 7px !important;
+}

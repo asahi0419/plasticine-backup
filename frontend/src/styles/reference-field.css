@@ -1,0 +1,117 @@
+.reference-field {
+  position: relative;
+}
+
+.reference-field > div {
+  display: flex;
+  width: 100%;
+}
+
+.reference-field .record-detail,
+.reference-field .record-creator {
+  top: 23px;
+  width: 21px;
+  height: 32px;
+  margin-left: 5px;
+}
+
+.reference-field.inline .record-detail,
+.reference-field.inline .record-creator {
+  top: initial;
+}
+
+.reference-field .record-detail a,
+.reference-field .record-creator a {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.reference-field .input {
+  position: relative;
+}
+
+.reference-field .input .controls {
+  top: 30px;
+  position: absolute;
+  z-index: 1;
+  right: 6px;
+}
+
+.reference-field.active .input .controls {
+  z-index: 11;
+}
+
+.reference-field.inline .input .controls {
+  top: 7px;
+}
+
+.reference-field .input .controls .icon {
+  cursor: pointer;
+}
+
+.reference-field .input .controls .icon.disabled {
+  cursor: default;
+}
+
+.reference-field .input .field {
+  display: block;
+}
+
+.reference-field .input .field .selection.dropdown {
+  min-width: 100%;
+  margin-right: 0;
+  display: block;
+  table-layout: fixed;
+  padding-right: 50px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+}
+
+.reference-field .input .field .selection.dropdown .text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: auto;
+}
+
+.reference-field .input .field .selection.dropdown .search {
+  height: 32px;
+  margin-left: 0;
+}
+
+.reference-field .input .error.field .selection.dropdown .search {
+  height: 30px;
+  min-height: 30px;
+  left: 0;
+}
+
+.reference-field .input .field .selection.dropdown.multiple .search {
+  min-height: auto;
+  height: 22px;
+  padding: 0 !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.reference-field .input .field .selection.dropdown.multiple .label {
+  margin-top: 0;
+  margin-bottom: 3px;
+}
+
+.reference-field .input .field.disabled .selection.dropdown {
+  overflow: hidden;
+}
+
+.reference-field .input .field.disabled .selection.dropdown.multiple .label {
+  padding: .35em .78em .35em .78em !important;
+  pointer-events: initial;
+}
+
+.reference-field .input .field > .dropdown > .text {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.reference-field.invalid .input .field > .dropdown > .text {
+  color: #db2828;
+}

@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  bg-mails-sender-dev:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile.dev
+    image: plasticine/backend:dev
+    container_name: bg-mails-sender-dev
+    ports:
+      - "${SERVICE_PORT}:8080"
+      - "9232:9229"
+    volumes:
+      - ../../backend:/src/plasticine/backend
+      - node_modules:/src/plasticine/backend/node_modules
+    command: yarn run background-mails:sender:start
+    environment:
+      DEBUG: "${DEBUG}"
+      NODE_TLS_REJECT_UNAUTHORIZED: "${NODE_TLS_REJECT_UNAUTHORIZED}"
+      APP_ENV: "${APP_ENV}"
+      APP_NAME: "${APP_NAME}"
+      APP_SECRET: "${APP_SECRET}"
+      APP_HOST_NAME: "${APP_HOST_NAME}"
+      APP_HOST_PROTOCOL: "${APP_HOST_PROTOCOL}"
+      APP_ADMIN_USER: "${APP_ADMIN_USER}"
+      APP_ADMIN_PASS: "${APP_ADMIN_PASS}"
+      APP_MAILER_USER: "${APP_MAILER_USER}"
+      APP_MAILER_PASS: "${APP_MAILER_PASS}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      DB_TYPE: "${DB_TYPE}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASS: "${DB_PASS}"
+      DB_SSL: "${DB_SSL}"
+      DB_TZ: "${DB_TZ}"
+      STORAGE_TYPE: "${STORAGE_TYPE}"
+      STORAGE_HOST: "${STORAGE_HOST}"
+      STORAGE_PORT: "${STORAGE_PORT}"
+      STORAGE_BUCKET: "${STORAGE_BUCKET}"
+      STORAGE_ACCESS_KEY: "${STORAGE_ACCESS_KEY}"
+      STORAGE_SECRET_KEY: "${STORAGE_SECRET_KEY}"
+      STORAGE_SSL: "${STORAGE_SSL}"
+      REDIS_CORE_HOST: "${REDIS_CORE_HOST}"
+      REDIS_CUSTOM_HOST: "${REDIS_CUSTOM_HOST}"
+
+volumes:
+  node_modules:
+
+networks:
+  default:
+    name: plasticine

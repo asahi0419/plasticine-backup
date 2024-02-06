@@ -1,0 +1,66 @@
+export default {
+  name: 'Filter',
+  plural: 'Filters',
+  alias: 'filter',
+  type: 'core',
+  template: 'base',
+  access_script: 'p.currentUser.canAtLeastRead()',
+  order: '-100',
+  __lock: ['delete'],
+  fields: [
+    {
+      name: 'Model',
+      alias: 'model',
+      type: 'reference',
+      options: { foreign_model: 'model', foreign_label: 'name' },
+      required_when_script: 'true',
+      __lock: ['delete'],
+    },
+    { name: 'Name', alias: 'name', type: 'string', required_when_script: 'true', __lock: ['delete'] },
+    {
+      name: 'Query',
+      alias: 'query',
+      type: 'string',
+      options: { length: 10000 },
+      __lock: ['delete'],
+    },
+  ],
+  views: [
+    {
+      name: 'Default',
+      alias: 'default',
+      type: 'grid',
+      condition_script: 'p.currentUser.isAdmin()',
+      layout: 'Default',
+      filter: 'Default',
+      __lock: ['delete'],
+    },
+  ],
+  layouts: [
+    {
+      name: 'Default',
+      type: 'grid',
+      options: {
+        columns: ['id', 'model', 'name', 'created_at', 'updated_at', 'created_by', 'updated_by'],
+        columns_options: {},
+        sort_order: [
+          { field: 'id', type: 'descending' },
+          { field: 'model', type: 'none' },
+          { field: 'name', type: 'none' },
+          { field: 'created_at', type: 'none' },
+          { field: 'updated_at', type: 'none' },
+          { field: 'created_by', type: 'none' },
+          { field: 'updated_by', type: 'none' },
+        ],
+        wrap_text: true,
+        no_wrap_text_limit: 50,
+      },
+      __lock: ['delete'],
+    },
+  ],
+  permissions: [
+    { type: 'model', action: 'create', script: 'p.currentUser.isAdmin()', __lock: ['delete'] },
+    { type: 'model', action: 'update', script: 'p.currentUser.isAdmin()', __lock: ['delete'] },
+    { type: 'model', action: 'delete', script: 'p.currentUser.isAdmin()', __lock: ['delete'] },
+  ],
+};

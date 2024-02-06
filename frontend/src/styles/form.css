@@ -1,0 +1,77 @@
+/* form */
+
+.form .section .form-view-embedded,
+.form .form-related-views .form-view-embedded {
+  position: relative;
+}
+
+.form .section {
+  margin-bottom: 10px;
+}
+
+.form .section:last-child {
+  margin-bottom: 0;
+}
+
+.form .section .form-section-column-component {
+  margin-bottom: 10px;
+}
+
+.form .section .form-section-column-component.section-component,
+.form .section .form-section-column-component:last-child {
+  margin-bottom: 0;
+}
+
+.form .section .form-section-row {
+  padding: 0;
+}
+
+.form .section .form-section-row.embedded-view {
+  margin: 0;
+}
+
+.form .section .form-section-grid {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form .section .form-view-embedded {
+  width: 100%;
+}
+
+.form .section .form-view-embedded .ui.grid .row {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.form .attachments-manager > div {
+  margin-bottom: 15px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.form .attachments-manager > div:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.form .form-related-views > .divider {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.form .page .tabs .tabs__menu {
+  margin: 0 0 14px 0 !important;
+}
+
+.form-section-row .jtk-endpoint {
+  cursor: pointer;
+  z-index: 100;
+  padding: 13px;
+}
+
+.form-section-row .jtk-connector {
+  z-index: 1;
+  cursor: pointer;
+}

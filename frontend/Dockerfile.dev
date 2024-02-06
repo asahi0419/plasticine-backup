@@ -1,0 +1,6 @@
+FROM node:18.12.1-alpine3.16
+WORKDIR /src/plasticine/frontend
+COPY . .
+RUN apk add git && yarn install
+EXPOSE 8080
+CMD [ "yarn", "run", "watch" ]

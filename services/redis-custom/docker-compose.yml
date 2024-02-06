@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  redis-custom:
+    image: redis:6.2.6-alpine
+    container_name: redis-custom
+    logging:
+      driver: none
+    volumes:
+      - ./data:/data
+
+networks:
+  default:
+    name: plasticine

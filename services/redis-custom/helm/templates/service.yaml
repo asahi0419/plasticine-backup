@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.Name }}
+  labels:
+    app: {{ .Values.Name }}
+    def: core
+    location: internal
+spec:
+  ports:
+    - port: {{ .Values.ServiceInternalPort }}
+      name: {{ .Values.Name }}
+  selector:
+    app: {{ .Values.Name }}
+    def: core
+    location: internal

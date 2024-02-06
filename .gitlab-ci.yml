@@ -1,0 +1,223 @@
+stages:
+  - Init
+  - Test
+  - Build
+  - Scan
+  - Push
+  - Emit
+
+variables:
+  GIT_USER: oauth
+  GIT_PASS: wkfyce_xQuqD8d4gFRmu
+  DOCKER_REGISTRY_NAME: registry.nasctech.com
+  DOCKER_REGISTRY_USER: nasc-registry
+  DOCKER_REGISTRY_PASS: Qwerty1@
+  IMAGE_NAME: plasticine
+  BUILD: latest
+  BUILD_DIR: /tmp/build/app
+  SW_EXPIRE_DATE: YYYY-MM-DD
+
+1. Set Build:
+  stage: Init
+  tags:
+    - k8s-helm
+  before_script:
+    - GIT_PATH=https://$GIT_USER:$GIT_PASS@repo.networktechnologies.online/nasc/streamline-v2/plasticine.git
+    - DIR_PATH=$BUILD_DIR/plasticine
+  script:
+    - |
+      sudo rm -rf $BUILD_DIR/plasticine
+      git clone --branch $BRANCH $GIT_PATH $DIR_PATH
+      cd $BUILD_DIR/plasticine
+
+      BUILD_LATEST=$(git rev-list HEAD --count)
+      BUILD_CONFIG=$([ "$BUILD" == "latest" ] && echo $BUILD_LATEST || echo $BUILD)
+      for i in $(eval echo {0..$((BUILD_LATEST-BUILD_CONFIG))})
+      do
+        BUILD=$(git rev-list HEAD~$i --count)
+        if [ "$BUILD" -le "$BUILD_CONFIG" ]; then
+          git reset --hard $(git rev-list HEAD~$i -n1); break
+        fi
+      done
+  only:
+    variables:
+      - '$BRANCH != null'
+
+2. Set Extensions:
+  stage: Init
+  tags:
+    - k8s-helm
+  before_script:
+    - GIT_PATH=https://$GIT_USER:$GIT_PASS@repo.networktechnologies.online/nasc/streamline-v2/extensions
+    - DIR_PATH=$BUILD_DIR/plasticine/backend/extensions/plugins/list
+  script:
+    - git clone --single-branch --branch develop $GIT_PATH/plugin_telegram.git $DIR_PATH/plugin_telegram
+    - git clone --single-branch --branch develop $GIT_PATH/plugin_inventory.git $DIR_PATH/plugin_inventory
+    - git clone --single-branch --branch develop $GIT_PATH/plugin_odbc.git $DIR_PATH/plugin_odbc
+    # TODO: update index options for field
+    # - git clone --single-branch --branch develop $GIT_PATH/plugin_fts.git $DIR_PATH/plugin_fts
+    - git clone --single-branch --branch develop $GIT_PATH/plugin_sso_server.git $DIR_PATH/plugin_sso_server
+    - git clone --single-branch --branch develop $GIT_PATH/plugin_psql.git $DIR_PATH/plugin_psql
+    # - git clone --single-branch --branch develop $GIT_PATH/plugin_firebase.git $DIR_PATH/plugin_firebase
+  only:
+    variables:
+      - '$BRANCH != null'
+
+1. Test Backend:
+  stage: Test
+  tags:
+    - k8s-helm
+  script:
+    - docker-compose -f backend/docker-compose.yml run backend-dev yarn install
+    - docker-compose -f backend/docker-compose.yml run backend-dev yarn test
+  after_script:
+    - docker-compose -f backend/docker-compose.yml rm -f backend-dev && echo $CI_PROJECT_DIR
+  only:
+    variables:
+      - '$BRANCH != null'
+  allow_failure: true
+
+2. Test Frontend:
+  stage: Test
+  tags:
+    - k8s-helm
+  script:
+    - docker-compose -f frontend/docker-compose.yml run frontend-dev yarn install
+    - docker-compose -f frontend/docker-compose.yml run frontend-dev yarn test
+  after_script:
+    - docker-compose -f frontend/docker-compose.yml run frontend-dev yarn test:clear
+    - docker-compose -f frontend/docker-compose.yml rm -f frontend-dev && echo $CI_PROJECT_DIR
+  only:
+    variables:
+      - '$BRANCH != null'
+  allow_failure: true
+
+1. Build Backend:
+  stage: Build
+  tags:
+    - k8s-helm
+  before_script:
+    - |
+      IMAGES=$(docker images -aq --filter="reference=*$DOCKER_REGISTRY_NAME/$IMAGE_NAME/backend*")
+      [ ! -z $IMAGES ] && docker rmi $IMAGES
+  script:
+    - TAG=$DOCKER_REGISTRY_NAME/$IMAGE_NAME/backend:$BRANCH.extended.$BUILD
+    - cd $BUILD_DIR/plasticine/backend && DOCKER_BUILDKIT=1 docker build --secret id=SW_EXPIRE_DATE --no-cache -t $TAG .
+  only:
+    variables:
+      - '$BRANCH != null'
+
+2. Build Frontend:
+  stage: Build
+  tags:
+    - k8s-helm
+  before_script:
+    - |
+      IMAGES=$(docker images -aq --filter="reference=*$DOCKER_REGISTRY_NAME/$IMAGE_NAME/frontend*")
+      [ ! -z $IMAGES ] && docker rmi $IMAGES
+  script:
+    - TAG=$DOCKER_REGISTRY_NAME/$IMAGE_NAME/frontend:$BRANCH.extended.$BUILD
+    - docker build --no-cache -f ./frontend/Dockerfile -t $TAG $BUILD_DIR/plasticine
+  only:
+    variables:
+      - '$BRANCH != null'
+
+1. Scan Backend:
+  stage: Scan
+  tags:
+    - k8s-helm
+  script:
+    - TAG=$DOCKER_REGISTRY_NAME/$IMAGE_NAME/backend:$BRANCH.extended.$BUILD
+    - trivy image --exit-code 1 $TAG
+  only:
+    variables:
+      - '$BRANCH != null'
+  allow_failure: true
+
+2. Scan Frontend:
+  stage: Scan
+  tags:
+    - k8s-helm
+  script:
+    - TAG=$DOCKER_REGISTRY_NAME/$IMAGE_NAME/frontend:$BRANCH.extended.$BUILD
+    - trivy image --exit-code 1 $TAG
+  only:
+    variables:
+      - '$BRANCH != null'
+  allow_failure: true
+
+1. Push Backend:
+  stage: Push
+  tags:
+    - k8s-helm
+  script:
+    - TAG=$DOCKER_REGISTRY_NAME/$IMAGE_NAME/backend:$BRANCH.extended.$BUILD
+    - docker push $TAG
+  only:
+    variables:
+      - '$BRANCH != null'
+
+2. Push Frontend:
+  stage: Push
+  tags:
+    - k8s-helm
+  script:
+    - TAG=$DOCKER_REGISTRY_NAME/$IMAGE_NAME/frontend:$BRANCH.extended.$BUILD
+    - docker push $TAG
+  only:
+    variables:
+      - '$BRANCH != null'
+
+Autodeploy (develop):
+  stage: Emit
+  tags:
+    - k8s-helm
+  before_script:
+    - CONFIGS="dev/co2-srv1 dev/co2-srv2 dev/sandbox-stage"
+    - WEBHOOK="https://repo.networktechnologies.online/api/v4/projects/115/trigger/pipeline"
+    - TOKEN="92a3c8d0901f4d71231280796836ad"
+  script:
+    - |
+      for CONFIG in ${CONFIGS}; do
+        curl -X POST -F ref="refs/heads/master" \
+                     -F "variables[CONFIG]=$CONFIG" \
+                     -F token="$TOKEN" $WEBHOOK -v
+      done
+  only:
+    variables:
+      - '$BRANCH == "develop"'
+
+Autodeploy (master):
+  stage: Emit
+  tags:
+    - k8s-helm
+  before_script:
+    - CONFIGS="dev/co2-master"
+    - WEBHOOK="https://repo.networktechnologies.online/api/v4/projects/115/trigger/pipeline"
+    - TOKEN="92a3c8d0901f4d71231280796836ad"
+  script:
+    - |
+      for CONFIG in ${CONFIGS}; do
+        curl -X POST -F ref="refs/heads/master" \
+                     -F "variables[CONFIG]=$CONFIG" \
+                     -F token="$TOKEN" $WEBHOOK -v
+      done
+  only:
+    variables:
+      - '$BRANCH == "master"'
+
+Publish Release (develop):
+  stage: Emit
+  tags:
+    - k8s-helm
+  before_script:
+    - WEBHOOK="https://staging.sd.nasc.space/api/v1/web_service/call/git_service?token=4b331631bd650f18bf1ca918e3ef6493"
+  script:
+    - |
+      curl -X POST --data "GIT_PATH=$CI_PROJECT_URL" \
+                   --data "GIT_PASS=$GIT_PASS" \
+                   --data "BRANCH=$BRANCH" $WEBHOOK -v \
+                   --data "object_kind=publish_release_nasc_trigger"
+  only:
+    variables:
+      - '$BRANCH == "develop"'

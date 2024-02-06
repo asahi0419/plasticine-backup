@@ -1,0 +1,32 @@
+.react-contextmenu {
+  cursor: auto;
+  outline: 0;
+  top: 100%;
+  min-width: 140px;
+  margin: 0;
+  padding: 0 0;
+  font-size: 1em;
+  text-shadow: none;
+  text-align: left;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  border-radius: .28rem;
+  z-index: 9999;
+  user-select: none;
+}
+
+.react-contextmenu-item {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  border: none;
+  height: auto;
+  text-align: left;
+  border-top: none;
+  line-height: 1em;
+  padding: .78rem 1.1rem!important;
+  font-size: 1rem;
+  text-transform: none;
+  font-weight: 400;
+  box-shadow: none;
+  outline: none;
+}

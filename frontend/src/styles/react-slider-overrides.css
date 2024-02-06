@@ -1,0 +1,42 @@
+.ui.form .field .slider {
+  display: flex;
+  width: calc(100% - 130px) !important;
+  min-width: calc(100% - 130px) !important;
+}
+
+.ui.form .field .slider .rc-slider {
+  margin: 9px 0;
+}
+
+.ui.form .field .slider .rc-slider {
+  width: calc(100% - 145px) !important;
+  min-width: calc(100% - 145px) !important;
+}
+
+.ui.form .field .slider .rc-slider.nulled .rc-slider-mark span:last-child {
+  display: none;
+}
+
+.ui.form .field .slider .rc-input-number {
+  width: 130px !important;
+  min-width: 130px !important;
+  margin-left: 15px !important;
+}
+
+.ui.form .field .slider .rc-slider-mark {
+  top: 10px;
+  font-size: 10px;
+}
+
+.ui.form .field .slider .rc-slider-mark-text:first-child {
+  width: initial !important;
+  margin-left: initial !important;
+  left: -3px !important;
+}
+
+.ui.form .field .slider .rc-slider-mark-text:last-child {
+  width: initial !important;
+  margin-left: initial !important;
+  left: initial !important;
+  right: -9px !important;
+}

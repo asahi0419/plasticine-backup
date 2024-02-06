@@ -1,0 +1,3 @@
+Name: redis-core
+ServiceInternalPort: 6379
+ServiceExternalPort: 6379

@@ -1,0 +1,8 @@
+.gitignore
+node_modules
+v8-compile-cache-0
+dist
+tmp
+index.cjs
+index.jsc
+package.cjs.json

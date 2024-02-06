@@ -1,0 +1,30 @@
+{
+  "ignore": [
+    "/node_modules/"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./"
+        ],
+        "alias": {
+          "lodash-es": "lodash"
+        }
+      }
+    ],
+    "babel-plugin-transform-import-meta"
+  ]
+}

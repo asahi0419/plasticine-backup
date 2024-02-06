@@ -1,0 +1,60 @@
+.ui.form .field.reference-to-list .rc-tree {
+  position: relative;
+  width: calc(100% - 155px);
+  margin: 0;
+  padding: 5px;
+  border-radius: 0.28rem;
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-node-content-wrapper {
+  width: calc(100% - 37px);
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-checkbox {
+  position: relative;
+  top: 9px;
+  display: block;
+  float: left;
+  background-image: initial;
+  font-size: 17px;
+  font-family: outline-icons;
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-checkbox i {
+  font-style: normal;
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-checkbox i:before {
+  content: '\F0C8';
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-checkbox-checked i:before {
+  content: '\F14A';
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-checkbox-indeterminate i:before {
+  content: '\F0C8';
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-checkbox-indeterminate i:after {
+  content: '\F45C';
+  position: relative;
+  left: -12px;
+  top: -3px;
+  font-size: 9px;
+  font-family: icons;
+  color: #3388cc;
+}
+
+.ui.form .field.reference-to-list .rc-tree .rc-tree-treenode-checkbox-checked .rc-tree-title {
+  color: #006600;
+  font-style: italic;
+}
+
+.ui.form .field.reference-to-list .rc-tree .folder > .rc-tree-node-content-wrapper > .rc-tree-title {
+  font-weight: bold;
+}
+
+.ui.form .field.reference-to-list .rc-tree .folder.rc-tree-treenode-checkbox-indeterminate > .rc-tree-node-content-wrapper > .rc-tree-title {
+  color: #3388cc;
+}

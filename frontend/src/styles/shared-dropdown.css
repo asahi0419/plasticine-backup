@@ -1,0 +1,45 @@
+/* shared-dropdown */
+
+.shared-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.shared-dropdown .input {
+  margin: 0 !important;
+}
+
+.shared-dropdown .controls {
+  position: absolute;
+  top: 7px;
+  right: 26px;
+}
+
+.shared-dropdown .controls .icon {
+  cursor: pointer;
+}
+
+.shared-dropdown .controls.disabled .icon {
+  cursor: default;
+}
+
+.shared-dropdown .selection.dropdown > .dropdown.icon {
+  opacity: 0.7;
+  right: 13px;
+}
+
+.shared-dropdown.clearable .selection.dropdown {
+  padding-right: 55px !important;
+}
+
+.shared-dropdown .selection.dropdown > .text {
+  opacity: 1;
+}
+
+.shared-dropdown.disabled .selection.dropdown > .text {
+  opacity: 0.65;
+}
+
+.shared-dropdown.filled .selection.dropdown > .text {
+  opacity: 1;
+}
